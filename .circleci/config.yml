@@ -9,13 +9,6 @@ jobs:
       - run:
           name: Build Docker image
           command: docker build . -t oonum/$CIRCLE_PROJECT_REPONAME:latest
-  publish-latest:
-    environment:
-      IMAGE_NAME: building-on-ci
-    docker:
-      - image: circleci/buildpack-deps:stretch
-    steps:
-      - setup_remote_docker
       - run:
           name: Publish Docker Image to Docker Hub
           command: |
@@ -26,12 +19,6 @@ workflows:
   build-master:
     jobs:
       - build:
-          filters:
-            branches:
-              only: master
-      - publish-latest:
-          requires:
-            - build
           filters:
             branches:
               only: master
