@@ -9,8 +9,8 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-        name: Build Docker image
-        command: docker build . -t $IMAGE_NAME:latest
+          name: Build Docker image
+          command: docker build . -t $IMAGE_NAME:latest
   publish-latest:
     environment:
       IMAGE_NAME: building-on-ci
@@ -19,10 +19,10 @@ jobs:
     steps:
       - setup_remote_docker
       - run:
-        name: Publish Docker Image to Docker Hub
-        command: |
-          echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-          docker push $IMAGE_NAME:latest
+          name: Publish Docker Image to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            docker push $IMAGE_NAME:latest
 workflows:
   version: 2
   build-master:
@@ -32,8 +32,8 @@ workflows:
           branches:
             only: master
       - publish-latest:
-        requires:
-          - build
-        filters:
-          branches:
-            only: master
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
